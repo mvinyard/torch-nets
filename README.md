@@ -1,4 +1,4 @@
-# [logo]("../../torch_composer.logo.large.svg")
+# ![logo](/docs/imgs/torch_composer.logo.large.svg)
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/torch-composer.svg)](https://pypi.python.org/pypi/torch-composer/)
 [![PyPI version](https://badge.fury.io/py/torch-composer.svg)](https://badge.fury.io/py/torch-composer)
