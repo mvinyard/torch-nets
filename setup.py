@@ -17,8 +17,7 @@ setup(
     description="API to compose pytorch neural networks",
     packages=[
         "torch_composer",
-        "torch_composer._core",
-        "torch_composer._core._base",
+        "torch_composer._nn_composer",
     ],
     
     install_requires=[
