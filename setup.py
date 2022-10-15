@@ -1,5 +1,5 @@
 
-from setuptools
+import setuptools
 import re
 import os
 import sys
