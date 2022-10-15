@@ -1,4 +1,14 @@
 
+__module_name__ = "_base_torch_neural_net.py"
+__doc__ = """
+          The most important module in the package to construct pytorch
+          neural nets from an ordered dictionary.
+          """
+__author__ = ", ".join(["Michael E. Vinyard"])
+__email__ = ", ".join(["vinyard@g.harvard.edu",])
+__version__ = "0.0.1"
+
+
 # -- import packages: --------------------------------------------------------------------
 from collections import OrderedDict
 import torch
