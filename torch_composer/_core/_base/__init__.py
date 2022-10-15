@@ -6,7 +6,7 @@ __doc__ = """
           """
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu",])
-__version__ = "0.0.1"
+__version__ = "0.0.4rc"
 
 
 # -- import module groups: ---------------------------------------------------------------
