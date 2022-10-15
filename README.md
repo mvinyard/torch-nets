@@ -4,7 +4,6 @@
 [![PyPI version](https://badge.fury.io/py/torch-composer.svg)](https://badge.fury.io/py/torch-composer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-# torch-composer
 Compose pytorch neural networks with ease.
 
 ### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
