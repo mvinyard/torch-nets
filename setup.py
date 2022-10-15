@@ -7,7 +7,7 @@ import sys
 
 setuptools.setup(
     name="torch_composer",
-    version="0.0.1rc",
+    version="0.0.4rc",
     python_requires=">3.6.0",
     author="Michael E. Vinyard - Harvard University - Broad Institute of MIT and Harvard - Massachussetts General Hospital",
     author_email="mvinyard@broadinstitute.org",
