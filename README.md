@@ -7,7 +7,7 @@
 # torch-composer
 Compose pytorch neural networks with ease.
 
-### Installation (current version: [`v0.1.0`](https://pypi.org/project/torch-composer/))
+### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
 ```python
 pip install torch-composer
 ```
