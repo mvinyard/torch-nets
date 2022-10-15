@@ -6,7 +6,7 @@
 
 Compose pytorch neural networks with ease.
 
-### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
+#### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
 ```python
 pip install torch-composer
 ```
@@ -15,9 +15,9 @@ pip install torch-composer
 ```python
 import torch_composer
 import torch
-
-net = torch_composer.TorchNet(in_dim=2500, out_dim=10)
 ```
+
+#### Create a feed-forward neural network
 ```
 Sequential(
   (input): Linear(in_features=2500, out_features=200, bias=True)
@@ -54,12 +54,12 @@ Sequential(
 )
 ```
 
-### Make an encoder
+#### Make an encoder
 ```python=
 torch_composer.TorchNetDecoder(data_dim=2500, latent_dim=10)
 ```
 
-### Make a decoder
+#### Make a decoder
 ```python=
 torch_composer.TorchNetDecoder(data_dim=2500, latent_dim=10)
 ```
