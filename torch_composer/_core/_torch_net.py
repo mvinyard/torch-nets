@@ -24,6 +24,7 @@ class TorchNet(object):
         hidden={1: [200, 200]},
         activation_function=torch.nn.LeakyReLU(negative_slope=0.01),
         dropout=0,
+        potential_net=False,
         input_bias=True,
         output_bias=True,
     ):
@@ -58,6 +59,11 @@ class TorchNet(object):
             default: 0
             type: float
 
+        potential_net
+            If True, overrides out_dim and output_bias, setting them to 1 and False, respectively.
+            type: bool
+            default: False
+
         input_bias
             boolean indicator of bias for input layer.
             default: True
@@ -68,6 +74,11 @@ class TorchNet(object):
             default: True
             type: bool
         """
+        
+        if potential_net:
+            out_dim = 1
+            output_bias = False
+
         return base.TorchNeuralNet(
             in_dim,
             out_dim,

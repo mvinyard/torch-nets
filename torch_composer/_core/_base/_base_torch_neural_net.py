@@ -52,17 +52,23 @@ class TorchDict(BaseTorchDict):
         NNDict = {}
 
         # -- do input: -------------------------------------------------------------------
-        layer_dict = Layer(None, self.in_dim, self.in_n, layer_type="input")()
+        layer_dict = Layer(name=None,
+                           nodes_m=self.in_dim,
+                           nodes_n=self.in_n,
+                           bias=self.input_bias,
+                           layer_type="input",
+                          )()
         NNDict["input"] = layer_dict["input"]
 
         # -- do hidden: ------------------------------------------------------------------
         for n, (layer, nodes) in enumerate(self.hidden.items()):
             layer_dict = Layer(
-                layer,
-                nodes[0],
-                nodes[1],
-                self.activation_functions[n],
-                self.dropouts[n],
+                name=layer,
+                nodes_m=nodes[0],
+                nodes_n=nodes[1],
+                activation_function=self.activation_functions[n],
+                dropout=self.dropouts[n],
+                bias=True,
                 layer_type="hidden",
             )()
             for k, v in layer_dict.items():
@@ -71,10 +77,11 @@ class TorchDict(BaseTorchDict):
         # -- do output: ------------------------------------------------------------------
         # NNDict["output"] 
         layer_dict = Layer(
-            None,
-            self.out_m,
-            self.out_dim,
-            self.activation_functions[-1],
+            name=None,
+            nodes_m=self.out_m,
+            nodes_n=self.out_dim,
+            activation_function=self.activation_functions[-1],
+            bias=self.output_bias,
             layer_type="output",
         )()
         for k, v in layer_dict.items():
