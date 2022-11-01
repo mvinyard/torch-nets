@@ -12,10 +12,8 @@ def as_list(item, n=1):
     return item
 
 
-def io_dim(hidden):
-
+def io_dim(hidden):    
     keys = list(hidden.keys())
-
     input_connect = hidden[keys[0]][0]
     output_connect = hidden[keys[-1]][-1]
     n_hidden = len(keys)
@@ -29,3 +27,8 @@ def parse_kwargs(args, ignore=["self"]):
         if not arg in ignore:
             kwargs[arg] = val
     return kwargs
+
+
+def is_null(var):
+    """Distinct from Zero or False"""
+    return isinstance(var, type(None))

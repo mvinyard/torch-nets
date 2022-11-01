@@ -16,7 +16,7 @@ import torch
 
 # -- import local dependencies: ----------------------------------------------------------
 from ._abstract_base_models import BaseTorchDict, BaseNeuralNet
-from ._supporting_functions import parse_kwargs, io_dim, as_list
+from ._supporting_functions import parse_kwargs, io_dim, as_list, is_null
 from ._layer import Layer
 
 
@@ -38,7 +38,8 @@ class TorchDict(BaseTorchDict):
         self.out = self.__register__(args=locals())
 
     def __register__(self, args):
-
+        
+        # if not is_null(args["hidden"]):
         self.in_n, self.out_m, self.n_hidden = io_dim(args["hidden"])
         self.activation_functions = as_list(
             args["activation_function"], n=int(self.n_hidden+1)
@@ -61,18 +62,19 @@ class TorchDict(BaseTorchDict):
         NNDict["input"] = layer_dict["input"]
 
         # -- do hidden: ------------------------------------------------------------------
-        for n, (layer, nodes) in enumerate(self.hidden.items()):
-            layer_dict = Layer(
-                name=layer,
-                nodes_m=nodes[0],
-                nodes_n=nodes[1],
-                activation_function=self.activation_functions[n],
-                dropout=self.dropouts[n],
-                bias=True,
-                layer_type="hidden",
-            )()
-            for k, v in layer_dict.items():
-                NNDict[k] = v
+        if not is_null(self.hidden):
+            for n, (layer, nodes) in enumerate(self.hidden.items()):
+                layer_dict = Layer(
+                    name=layer,
+                    nodes_m=nodes[0],
+                    nodes_n=nodes[1],
+                    activation_function=self.activation_functions[n],
+                    dropout=self.dropouts[n],
+                    bias=True,
+                    layer_type="hidden",
+                )()
+                for k, v in layer_dict.items():
+                    NNDict[k] = v
 
         # -- do output: ------------------------------------------------------------------
         # NNDict["output"] 
