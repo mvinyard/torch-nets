@@ -17,11 +17,11 @@ class Layer(ABC):
 
     def __init__(
         self,
-        in_features,
-        out_features,
-        activation=None,
-        bias=True,
-        dropout=0,
+        in_features: int,
+        out_features: int,
+        activation: torch.nn.modules.activation = None,
+        bias: bool = True,
+        dropout: float = 0,
         name: str = None,
     ):
         """
@@ -29,20 +29,36 @@ class Layer(ABC):
         Parameters:
         -----------
         in_features
+            Size of layer input.
+            type: int
         
         out_features
+            Size of layer output.
+            type: int
         
         activation
+            If passed, defines appended activation function.
+            type: 'torch.nn.modules.activation.<func>'
+            default: None
         
         bias
-        
+            Indicate if the layer should not learn an additive bias.
+            type: bool
+            default: True
+            
         dropout
+            If > 0, append dropout layer with probablity p, where p = dropout.
+            type: float
+            default: 0
         
-        name
-        
+        name [Optional]
+            Name of the layer. If defined, specified within torch.nn.Sequential.
+            Layer name.
+            type: str
+                    
         Returns:
         --------
-        
+        None, instantiates Layer class.
         
         Notes:
         ------
