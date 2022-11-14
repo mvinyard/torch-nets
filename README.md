@@ -15,7 +15,7 @@ pip install torch-composer
 
 ### Sample use-cases of the API
 ```python
-import torch_composer
+from torch_nets import TorchNet
 import torch
 ```
 
