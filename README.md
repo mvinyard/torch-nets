@@ -16,7 +16,6 @@ pip install torch-composer
 ### Sample use-cases of the API
 ```python
 from torch_nets import TorchNet
-import torch
 ```
 
 #### Create a feed-forward neural network
