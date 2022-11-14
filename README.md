@@ -4,6 +4,8 @@
 [![PyPI version](https://badge.fury.io/py/torch-composer.svg)](https://badge.fury.io/py/torch-composer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+<a href="https://github.com/mvinyard/torch-nets/"><img src="https://user-images.githubusercontent.com/47393421/201577998-ba30d510-d518-4cbd-aad5-556df2e925f9.gif" alt="ol-reliable-spongebob" width="400"/></a>
+
 Compose pytorch neural networks with ease.
 
 #### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
@@ -18,56 +20,39 @@ import torch
 ```
 
 #### Create a feed-forward neural network
-```
-Sequential(
-  (input): Linear(in_features=2500, out_features=200, bias=True)
-  (activation_1): LeakyReLU(negative_slope=0.01)
-  (hidden_1): Linear(in_features=200, out_features=200, bias=True)
-  (output_activation): LeakyReLU(negative_slope=0.01)
-  (output): Linear(in_features=200, out_features=10, bias=True)
-)
-```
 
-As simple as you want (see above) or more complex with optional parameters:
 ```python
-torch_composer.TorchNet(
-    in_dim=2500,
-    out_dim=10,
-    hidden={1: [800, 800], 2: [200, 200]},
-    activation_function=torch.nn.LeakyReLU(negative_slope=0.01),
+net = TorchNet(
+    in_features=50,
+    out_features=50,
+    hidden=[400, 400],
+    activation="LeakyReLU",
     dropout=0.2,
-    input_bias=True,
+    bias=True,
     output_bias=True,
 )
+net
 ```
 ```
 Sequential(
-  (input): Linear(in_features=2500, out_features=800, bias=True)
-  (activation_1): LeakyReLU(negative_slope=0.01)
-  (hidden_1): Linear(in_features=800, out_features=800, bias=True)
-  (dropout_1): Dropout(p=0.2, inplace=False)
-  (activation_2): LeakyReLU(negative_slope=0.01)
-  (hidden_2): Linear(in_features=200, out_features=200, bias=True)
-  (dropout_2): Dropout(p=0.2, inplace=False)
-  (output_activation): LeakyReLU(negative_slope=0.01)
-  (output): Linear(in_features=200, out_features=10, bias=True)
+  (hidden_1): Sequential(
+    (linear): Linear(in_features=50, out_features=400, bias=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (activation): LeakyReLU(negative_slope=0.01)
+  )
+  (hidden_2): Sequential(
+    (linear): Linear(in_features=400, out_features=400, bias=True)
+    (dropout): Dropout(p=0.2, inplace=False)
+    (activation): LeakyReLU(negative_slope=0.01)
+  )
+  (output): Sequential(
+    (linear): Linear(in_features=400, out_features=50, bias=True)
+  )
 )
 ```
 
-#### Make an encoder
-```python=
-torch_composer.TorchNetDecoder(data_dim=2500, latent_dim=10)
-```
+The only required arguments are `in_features` and `out_features`. The network can be made as simple or complex as you want through optional parameters.
 
-#### Make a decoder
-```python=
-torch_composer.TorchNetDecoder(data_dim=2500, latent_dim=10)
-```
-
-Access and set initial parameters for the output layer:
-```python=
-torch_composer.tools.init_output_params(net)
-```
 
 #### Potential future plans
 
