@@ -6,7 +6,7 @@
 
 <a href="https://github.com/mvinyard/torch-nets/"><img src="https://user-images.githubusercontent.com/47393421/201577998-ba30d510-d518-4cbd-aad5-556df2e925f9.gif" alt="ol-reliable-spongebob" width="400"/></a>
 
-Compose pytorch neural networks with ease.
+Compose PyTorch neural networks with ease.
 
 #### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
 ```python
