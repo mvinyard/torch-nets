@@ -69,20 +69,19 @@ class Layer(ABC):
 
     # --- utilities: ---------------------------------------------------------------------
     def __configure_activation__(self, func):
-
+        """Register the passed activation function."""
         if isinstance(func, str):
             return getattr(torch.nn, func)()
         if isinstance(func, torch.nn.Module):
             return func
         if isinstance(func(), torch.nn.Module):
             return func()
-
-        print(
-            "Must pass torch.nn.<function> or a string that fetches a torch.nn.<function>"
-        )
+        
+        msg = "Must pass torch.nn.<function> or a string that fetches a torch.nn.<function>"
+        print(msg)
 
     def __parse_kwargs__(self, name, kwargs, ignore=["self", "name"]):
-
+        """Register passed keyword arguments. Called on self.__init__()"""
         setattr(self, "__name__", name)
 
         self._kwargs = {}
@@ -94,6 +93,7 @@ class Layer(ABC):
     # -- core properties: ----------------------------------------------------------------
     @property
     def linear(self):
+        """torch.nn.Linear layer"""
         return torch.nn.Linear(
             in_features=self._in_features,
             out_features=self._out_features,
@@ -102,18 +102,20 @@ class Layer(ABC):
 
     @property
     def dropout(self):
+        """torch.nn.Dropout layer."""
         if self._dropout:
             return torch.nn.Dropout(self._dropout)
 
     @property
     def activation(self):
+        """torch.nn.<activation> layer"""
         if self._activation:
             return self.__configure_activation__(self._activation)
 
     # -- called: -------------------------------------------------------------------------
     def __collect_attributes__(self):
-
-        attributes = [i for i in layer.__dir__() if not i.startswith("_")]
+        """Collect passed layer and optionally dropout, activation."""
+        attributes = [i for i in self.__dir__() if not i.startswith("_")]
         for attr in attributes:
             if not getattr(self, attr) is None:
                 if self.__name__:
@@ -122,5 +124,15 @@ class Layer(ABC):
                     attr_name = attr
                 yield (attr_name, getattr(self, attr))
 
-    def __call__(self) -> dict:
+    def __call__(self)-> torch.nn.Sequential:
+        """
+        Generate layer from arguments passed to __init__() and processed with supporting
+        functions.
+        
+        Returns:
+        --------
+        Layer
+            Composed layer
+            type: torch.nn.Sequential
+        """
         return torch.nn.Sequential(OrderedDict(self.__collect_attributes__()))

@@ -7,9 +7,10 @@ __version__ = "0.0.4rc"
 
 
 # -- import network modules: -------------------------------------------------------------
-from ._core._torch_net import TorchNet
-from ._core._encoder_decoder import TorchNetEncoder, TorchNetDecoder
+from ._core._base import Layer
+# from ._core._torch_net import TorchNet
+# from ._core._encoder_decoder import TorchNetEncoder, TorchNetDecoder
 
 
 # -- import ancilliary module groups: ----------------------------------------------------
-from . import _tools as tools
+# from . import _tools as tools
