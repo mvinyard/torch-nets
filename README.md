@@ -8,12 +8,21 @@
 
 Compose PyTorch neural networks with ease.
 
-#### Installation (current version: [`v0.0.4`](https://pypi.org/project/torch-composer/))
+#### Installation
+
+From PYPI (current version: [`v0.0.1rc`](https://pypi.org/project/torch-nets/))
 ```python
-pip install torch-composer
+pip install torch-nets
 ```
 
-### Sample use-cases of the API
+Alternatively, install the development version from GitHub:
+```shell
+git clone https://github.com/mvinyard/torch-nets.git;
+cd torch-nets; pip install -e .
+```
+
+### Example API use-case
+
 ```python
 from torch_nets import TorchNet
 ```
