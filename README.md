@@ -11,9 +11,9 @@ Compose PyTorch neural networks with ease.
 
 #### Installation
 
-From PYPI (current version: [`v0.0.1rc`](https://pypi.org/project/torch-nets/0.0.1rc0/))
+From PYPI (current version: [`v0.0.1`](https://pypi.org/project/torch-nets/0.0.1/))
 ```python
-pip install torch-nets==0.0.1rc0
+pip install torch-nets
 ```
 
 Alternatively, install the development version from GitHub:
