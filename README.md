@@ -4,7 +4,8 @@
 [![PyPI version](https://badge.fury.io/py/torch-composer.svg)](https://badge.fury.io/py/torch-composer)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-<a href="https://github.com/mvinyard/torch-nets/"><img src="https://user-images.githubusercontent.com/47393421/201577998-ba30d510-d518-4cbd-aad5-556df2e925f9.gif" alt="ol-reliable-spongebob" width="400"/></a>
+
+<a href="https://github.com/mvinyard/torch-nets/"><img src="/docs/assets/ol-reliable-spongebob.gif" alt="ol-reliable-spongebob" width="400"/></a>
 
 Compose PyTorch neural networks with ease.
 
