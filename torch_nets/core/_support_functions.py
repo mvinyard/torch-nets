@@ -58,6 +58,7 @@ def power_space(start: int, stop: int, n: int, power: Union[int, float]):
 
     pspace = np.power(np.linspace(start_, stop_, num=n), power).astype(int)
     pspace[0], pspace[-1] = start, stop
+    
     return pspace
 
 

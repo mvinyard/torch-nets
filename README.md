@@ -5,7 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-<a href="https://github.com/mvinyard/torch-nets/"><img src="/docs/assets/ol-reliable-spongebob.gif" alt="ol-reliable-spongebob" width="400"/></a>
+<a href="https://github.com/mvinyard/torch-nets/"><img src="/docs/imgs/ol-reliable-spongebob.gif" alt="ol-reliable-spongebob" width="400"/></a>
 
 Compose PyTorch neural networks with ease.
 
