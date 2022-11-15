@@ -3,6 +3,7 @@ __module_name__ = "_torch_net.py"
 __doc__ = """Main user-facing API for torch.nn.Sequential."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
+__version__ = "0.0.1"
 
 
 # -- import packages: --------------------------------------------------------------------

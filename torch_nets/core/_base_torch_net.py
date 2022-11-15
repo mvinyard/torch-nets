@@ -1,4 +1,11 @@
 
+__module_name__ = "_base_torch_net.py"
+__doc__ = """Central module for torch-nets base class."""
+__author__ = ", ".join(["Michael E. Vinyard"])
+__email__ = ", ".join(["vinyard@g.harvard.edu",])
+__version__ = "0.0.1"
+
+
 # -- import packages: --------------------------------------------------------------------
 from abc import ABC, abstractmethod
 import torch

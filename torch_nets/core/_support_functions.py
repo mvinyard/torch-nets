@@ -3,7 +3,7 @@ __module_name__ = "_support_functions.py"
 __doc__ = """Support module."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu",])
-__version__ = "0.0.1rc"
+__version__ = "0.0.1"
 
 
 # -- import packages: --------------------------------------------------------------------

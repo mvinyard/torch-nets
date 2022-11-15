@@ -1,4 +1,11 @@
 
+__module_name__ = "_encoder_decoder.py"
+__doc__ = """Main user-facing API for torch.nn.Sequential encoders/decoders."""
+__author__ = ", ".join(["Michael E. Vinyard"])
+__email__ = ", ".join(["vinyard@g.harvard.edu"])
+__version__ = "0.0.1"
+
+
 # -- import packages: --------------------------------------------------------------------
 from typing import Union, Any
 from collections import OrderedDict
