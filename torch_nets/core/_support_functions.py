@@ -53,8 +53,8 @@ def power_space(start: int, stop: int, n: int, power: Union[int, float]):
     power-spaced array
         type: np.ndarray
     """
-    start = np.power(start, 1 / float(power))
-    stop = np.power(stop, 1 / float(power))
+    start_ = np.power(start, 1 / float(power))
+    stop_  = np.power(stop, 1 / float(power))
 
     pspace = np.power(np.linspace(start_, stop_, num=n), power).astype(int)
     pspace[0], pspace[-1] = start, stop
