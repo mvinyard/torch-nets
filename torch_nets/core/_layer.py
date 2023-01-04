@@ -3,7 +3,7 @@ __module_name__ = "_layer.py"
 __doc__ = """Layer module."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 # -- import packages: --------------------------------------------------------------------
 from abc import ABC

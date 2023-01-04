@@ -1,7 +1,7 @@
 # Torch-Nets
 
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/torch-composer.svg)](https://pypi.python.org/pypi/torch-composer/)
-[![PyPI version](https://badge.fury.io/py/torch-composer.svg)](https://badge.fury.io/py/torch-composer)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/torch-nets.svg)](https://pypi.python.org/pypi/torch-nets/)
+[![PyPI version](https://badge.fury.io/py/torch-nets.svg)](https://badge.fury.io/py/torch-nets)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
@@ -37,6 +37,7 @@ net = TorchNet(
     hidden=[400, 400],
     activation="LeakyReLU",
     dropout=0.2,
+    n_augment=0,
     bias=True,
     output_bias=True,
 )

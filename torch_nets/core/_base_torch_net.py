@@ -3,7 +3,7 @@ __module_name__ = "_base_torch_net.py"
 __doc__ = """Central module for torch-nets base class."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu",])
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 # -- import packages: --------------------------------------------------------------------
@@ -41,10 +41,11 @@ class BaseTorchNet(ABC):
         in_features,
         out_features,
         hidden,
-        activation="LeakyReLU",
-        dropout=0.2,
-        bias=True,
-        output_bias=True,
+        activation: str = "LeakyReLU",
+        dropout: float = 0.2,
+        n_augment: int = 0,
+        bias: bool = True,
+        output_bias: bool = True,
     ):
 
         self.__parse__(locals())
