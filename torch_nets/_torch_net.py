@@ -3,7 +3,7 @@ __module_name__ = "_torch_net.py"
 __doc__ = """Main user-facing API for torch.nn.Sequential."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 # -- import packages: --------------------------------------------------------------------
@@ -22,6 +22,10 @@ from .core._base_torch_net import BaseTorchNet
 # -- Main module class: ------------------------------------------------------------------
 class TorchNet(BaseTorchNet):
     def __build__(self):
+        
+        if self.n_augment > 0:
+            self.in_features  += self.n_augment
+            self.out_features += self.n_augment
 
         TorchNetStructure = define_structure(
             self.in_features, self.out_features, self.hidden
@@ -55,6 +59,7 @@ def _torch_net(
     hidden: Union[list, int] = [],
     activation="LeakyReLU",
     dropout: Union[float, list] = 0.2,
+    n_augment: int = 0,
     bias: bool = True,
     output_bias: bool = True,
 ):
@@ -82,7 +87,13 @@ def _torch_net(
         If > 0, append dropout layer with probablity p, where p = dropout.
         type: float
         default: 0
-
+    
+    n_augment
+        If > 0, augment the input and output states of the neural network with these
+        additional dimensions.
+        type: int
+        default: 0
+        
     bias
         Indicate if the layer should/should not learn an additive bias.
         type: bool
@@ -113,6 +124,7 @@ def _torch_net(
         hidden=hidden,
         activation=activation,
         dropout=dropout,
+        n_augment=n_augment,
         bias=bias,
         output_bias=output_bias,
     )()
