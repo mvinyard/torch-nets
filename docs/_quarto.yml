@@ -21,29 +21,29 @@ website:
   sidebar:
     contents:
       - text: Home
-        href: index.qmd
+        href: build_source/index.qmd
       - text: Quickstart
-        href: quickstart.qmd
+        href: build_source/quickstart.qmd
       - text: Installation
-        href: install.qmd
+        href: build_source/install.qmd
       - section: "API reference"
-        href: api.qmd          
+        href: build_source/api.qmd          
         contents:
           - text: Layer
-            href: layer.qmd      
+            href: build_source/layer.qmd      
       
       - section: "Gallery of examples"
-        href: examples.qmd
+        href: build_source/examples.qmd
       - section: "About"
-        href: about.qmd
+        href: build_source/about.qmd
         contents:
           - text: Development team
-            href: team.qmd
+            href: build_source/team.qmd
 
 format:
   html:
     theme: simplex
-    css: styles.css
+    css: build_source/styles.css
     toc: true
 
 output:
