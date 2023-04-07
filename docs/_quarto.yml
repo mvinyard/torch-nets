@@ -1,0 +1,51 @@
+project:
+  type: website
+
+website:
+  title: "torch-nets"
+#   favicon: 
+#   image: 
+  navbar:
+#     logo: 
+    tools:
+      - icon: twitter
+        href: https://twitter.com/vinyard_m
+      - icon: github
+        href: https://github.com/torch-nets/
+        menu:
+          - text: Source Code
+            url:  https://github.com/torch-nets/
+          - text: Open an issue
+            url:  https://github.com/torch-nets/torch-nets/issues/new
+
+  sidebar:
+    contents:
+      - text: Home
+        href: index.qmd
+      - text: Quickstart
+        href: quickstart.qmd
+      - text: Installation
+        href: install.qmd
+      - section: "API reference"
+        href: api.qmd          
+        contents:
+          - text: Layer
+            href: layer.qmd      
+      
+      - section: "Gallery of examples"
+        href: examples.qmd
+      - section: "About"
+        href: about.qmd
+        contents:
+          - text: Development team
+            href: team.qmd
+
+format:
+  html:
+    theme: simplex
+    css: styles.css
+    toc: true
+
+output:
+  html_document:
+    css: "styles.css"

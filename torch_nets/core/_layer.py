@@ -3,28 +3,39 @@ __module_name__ = "_layer.py"
 __doc__ = """Layer module."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
-__version__ = "0.0.2"
 
-# -- import packages: --------------------------------------------------------------------
-from abc import ABC
+
+# -- import packages: ----------------------------------------------------------
 from collections import OrderedDict
+from ABCParse import ABCParse
 import torch
 
 
-# -- Base Layer module: ------------------------------------------------------------------
-class Layer(ABC):
-    __name__ = ""
+# -- import local dependencies: ------------------------------------------------
+from ._activation_function_config import ActivationFunctionConfig
 
+
+# -- set typing: ---------------------------------------------------------------
+from typing import List, Union, Type, Callable
+NoneType = type(None)
+ActivationFunctionType = Type[Callable[torch.nn.modules.activation, torch.Tensor]]
+
+
+# -- Layer module: -------------------------------------------------------------
+class Layer(ABCParse):
     def __init__(
         self,
         in_features: int,
         out_features: int,
-        activation: torch.nn.modules.activation = None,
+        activation: Union[NoneType, ActivationFunctionType] = None,
         bias: bool = True,
-        dropout: float = 0,
-        name: str = None,
-    ):
+        dropout: Union[NoneType, float] = 0,
+        name: str = "",
+    )->NoneType:
         """
+        Container for a single linear layer for a torch neural network,
+        often an essential building block of torch.nn.Sequential or
+        torch.nn.Module.
         
         Parameters:
         -----------
@@ -65,34 +76,15 @@ class Layer(ABC):
         (1) General flow assumed is: Linear -> Dropout -> Activation
         """
         
-        self.__parse_kwargs__(name, locals())
+        super(Layer, self).__init__()
 
-    # --- utilities: ---------------------------------------------------------------------
-    def __configure_activation__(self, func):
-        """Register the passed activation function."""
-        if isinstance(func, str):
-            return getattr(torch.nn, func)()
-        if isinstance(func, torch.nn.Module):
-            return func
-        if isinstance(func(), torch.nn.Module):
-            return func()
-        
-        msg = "Must pass torch.nn.<function> or a string that fetches a torch.nn.<function>"
-        print(msg)
-
-    def __parse_kwargs__(self, name, kwargs, ignore=["self", "name"]):
-        """Register passed keyword arguments. Called on self.__init__()"""
+        self.__parse__(kwargs=locals(), ignore=["name"], public=[None])
+        self._configure_activation = ActivationFunctionConfig()
         setattr(self, "__name__", name)
-
-        self._kwargs = {}
-        for k, v in kwargs.items():
-            if k and (not k in ignore):
-                self._kwargs[k] = v
-                setattr(self, "_{}".format(k), v)
-
+        
     # -- core properties: ----------------------------------------------------------------
     @property
-    def linear(self):
+    def linear(self)->torch.nn.modules.linear.Linear:
         """torch.nn.Linear layer"""
         return torch.nn.Linear(
             in_features=self._in_features,
@@ -101,19 +93,19 @@ class Layer(ABC):
         )
 
     @property
-    def dropout(self):
+    def dropout(self)->torch.nn.modules.dropout.Dropout:
         """torch.nn.Dropout layer."""
         if self._dropout:
             return torch.nn.Dropout(self._dropout)
-
+        
     @property
-    def activation(self):
+    def activation(self)->ActivationFunctionType:
         """torch.nn.<activation> layer"""
         if self._activation:
-            return self.__configure_activation__(self._activation)
-
+            return self._configure_activation(self._activation)
+        
     # -- called: -------------------------------------------------------------------------
-    def __collect_attributes__(self):
+    def __collect_attributes__(self)->NoneType:
         """Collect passed layer and optionally dropout, activation."""
         attributes = [i for i in self.__dir__() if not i.startswith("_")]
         for attr in attributes:

@@ -11,27 +11,27 @@ from abc import ABC, abstractmethod
 import torch
 
 
-# -- import local dependencies: ----------------------------------------------------------
-from ._support_functions import as_list, is_uniform
+# # -- import local dependencies: ----------------------------------------------------------
+# from ._support_functions import as_list, is_uniform
 
 
-# -- supporting functions: ---------------------------------------------------------------
-def format_layer_args(layer_arg, n_hidden):
-    """format layer arguments w.r.t. the # of hidden layers"""
-    layer_args = as_list(layer_arg)
+# # -- supporting functions: ---------------------------------------------------------------
+# def format_layer_args(layer_arg, n_hidden):
+#     """format layer arguments w.r.t. the # of hidden layers"""
+#     layer_args = as_list(layer_arg)
         
-    if len(layer_args) == 0:
-        return layer_args
+#     if len(layer_args) == 0:
+#         return layer_args
 
-    if is_uniform(layer_args):
-        return [layer_args[0]] * n_hidden
+#     if is_uniform(layer_args):
+#         return [layer_args[0]] * n_hidden
 
-    if len(layer_args) != n_hidden:
-        n_missing = n_hidden - len(layer_args)
-        return layer_args + [layer_args[-1]] * n_missing
+#     if len(layer_args) != n_hidden:
+#         n_missing = n_hidden - len(layer_args)
+#         return layer_args + [layer_args[-1]] * n_missing
 
-    else:
-        return layer_args
+#     else:
+#         return layer_args
 
 
 # -- Base class: -------------------------------------------------------------------------

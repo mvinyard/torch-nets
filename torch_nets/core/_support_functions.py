@@ -13,19 +13,6 @@ import numpy as np
 
 
 # -- Supporting functions: ---------------------------------------------------------------
-def as_list(input: Union[list, Any]):
-    """Convert to list, if not already"""
-    if isinstance(input, list):
-        return input
-    return [input]
-
-
-def is_uniform(iterable):
-    """Evaluate if all items in a list are uniform"""
-    grouped = groupby(iterable)
-    return next(grouped, True) and not next(grouped, False)
-
-
 def power_space(start: int, stop: int, n: int, power: Union[int, float]):
     """
     Return integered-powered space.
