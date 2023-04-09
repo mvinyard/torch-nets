@@ -1,143 +1,96 @@
 
-__module_name__ = "_torch_net.py"
-__doc__ = """Main user-facing API for torch.nn.Sequential."""
-__author__ = ", ".join(["Michael E. Vinyard"])
-__email__ = ", ".join(["vinyard@g.harvard.edu"])
-
-
-# -- import packages: --------------------------------------------------------------------
-from collections import OrderedDict
-from itertools import groupby
-from typing import Union, Any, List
+from ABCParse import ABCParse
 import torch
+from typing import Union, List, Any
+from collections import OrderedDict
 
-from ABCParse import function_kwargs
+from .core.config import Config
+from .core import LayerBuilder
 
+class TorchNet(torch.nn.Sequential, ABCParse):
+    def __init__(
+        self,
+        in_features: int,
+        out_features: int,
+        hidden: Union[List[int], int] = [],
+        activation: Union[str, List[str]] = "LeakyReLU",
+        dropout: Union[float, List[float]] = 0.2,
+        bias: bool = True,
+        output_bias: bool = True,
+    ):
+        self.__parse__(locals())
 
-# -- import local dependencies: ----------------------------------------------------------
-# from .core._layer import Layer
-# from .core._support_functions import define_structure
-# from .core._base_torch_net import BaseTorchNet
+        self.config = Config(
+            in_features=in_features,
+            out_features=out_features,
+            hidden=hidden,
+        )
 
-from . import core
+        self.layers = []
+        self.lb = LayerBuilder()
 
+        xyz = self.__build__()
+        self.names = []
+        for i, (x, y) in enumerate(xyz.items()):
+            self.layers.append(y)
+            self.names.append(x)
 
-# -- Main module class: ------------------------------------------------------------------
-# class TorchNet(BaseTorchNet):
-#     def __build__(self):
-        
-#         if self.n_augment > 0:
-#             self.in_features  += self.n_augment
-#             self.out_features += self.n_augment
+        super(TorchNet, self).__init__(*self.layers)
+        self._rename_nn_sequential_inplace(self, self.names)
 
-#         TorchNetStructure = define_structure(
-#             self.in_features, self.out_features, self.hidden
-#         )
+    def _rename_nn_sequential_inplace(
+        self, sequential: torch.nn.Sequential, names: List[str]
+    ) -> None:
+        new_modules = OrderedDict()
+        for i, (k, v) in enumerate(sequential._modules.items()):
+            new_modules[names[i]] = v
 
-#         TorchNetDict = OrderedDict()
-#         for n, (name, layer_dims) in enumerate(TorchNetStructure.items()):
-#             if name != "output":
-#                 TorchNetDict[name] = Layer(
-#                     in_features=layer_dims[0],
-#                     out_features=layer_dims[1],
-#                     activation=self.activation[n],
-#                     bias=self.bias[n],
-#                     dropout=self.dropout[n],
-#                 )()
-#             else:
-#                 TorchNetDict[name] = Layer(
-#                     in_features=layer_dims[0],
-#                     out_features=layer_dims[1],
-#                     bias=self.output_bias,
-#                 )()
+        sequential._modules = new_modules
 
-#         return TorchNetDict
-    
-# -- Main API-facing function: ----------------------------------------------
-def TorchNet(
-    in_features: int,
-    out_features: int,
-    hidden: List[int] = [],
-    activation: str = ["LeakyReLU"],
-    dropout: float = [0.2],
-    bias: bool = [True],
-    output_bias: bool = True,
-):
-    kwargs = function_kwargs(func=core.TorchNetBuilder, kwargs=locals())
-    return core.TorchNetBuilder(**kwargs)()
+    @property
+    def _building_list(self):
+        return ["hidden", "activation", "bias", "dropout"]
 
-# def _torch_net(
-#     in_features: int,
-#     out_features: int,
-#     hidden: Union[list, int] = [],
-#     activation="LeakyReLU",
-#     dropout: Union[float, list] = 0.2,
-#     n_augment: int = 0,
-#     bias: bool = True,
-#     output_bias: bool = True,
-# ):
-    """
-    Parameters:
-    -----------
-    in_features
-        Size of layer input.
-        type: int
+    def stack(self):
+        for key, val in self._PARAMS.items():
+            if key in self._building_list:
+                val = self.config.layerwise_attributes(self._PARAMS[key])
+                setattr(self, key, val)
 
-    out_features
-        Size of layer output.
-        type: int
+    def _build_hidden_layer(self, in_dim, out_dim, n):
+        return LayerBuilder()(
+            in_features=in_dim,
+            out_features=out_dim,
+            activation=self.activation[n],
+            bias=self.bias[n],
+            dropout=self.dropout[n],
+        )
 
-    hidden
-        list of hidden layer sizes
-        type: Union[list, int]
+    def _build_output_layer(self, in_dim, out_dim):
+        return LayerBuilder()(
+            in_features=in_dim,
+            out_features=out_dim,
+            bias=self.output_bias,
+        )
 
-    activation
-        If passed, defines appended activation function.
-        type: 'torch.nn.modules.activation.<func>'
-        default: None
+    def __build__(self):
+        self.stack()
 
-    dropout
-        If > 0, append dropout layer with probablity p, where p = dropout.
-        type: float
-        default: 0
-    
-    n_augment
-        If > 0, augment the input and output states of the neural network with these
-        additional dimensions.
-        type: int
-        default: 0
-        
-    bias
-        Indicate if the layer should/should not learn an additive bias.
-        type: bool
-        default: True
+        TorchNetDict = {}
 
-    output_bias
-        Indicate if the output layer should/should not learn an
-        additive bias.
-        type: bool
-        defualt: True
+        for n, (layer_name, (in_dim, out_dim)) in enumerate(
+            self.config.network_structure.items()
+        ):
+            if layer_name == "output":
+                TorchNetDict[layer_name] = self._build_output_layer(in_dim, out_dim)
+            else:
+                TorchNetDict[layer_name] = self._build_hidden_layer(in_dim, out_dim, n)
 
+        return TorchNetDict
 
-    Returns:
-    --------
-    TorchNet
-        Neural network block. To be accepted into a torch.nn.Module object.
-        type: torch.nn.Sequential
-
-    Notes:
-    ------
-    (1) For params: 'activation', 'bias', and 'dropout': if more
-        params than necessary are passed, they will go unused.
-    """
-
-#     return TorchNet(
-#         in_features=in_features,
-#         out_features=out_features,
-#         hidden=hidden,
-#         activation=activation,
-#         dropout=dropout,
-#         n_augment=n_augment,
-#         bias=bias,
-#         output_bias=output_bias,
-#     )()
+    # No need to define forward() method as it is already handled by nn.Sequential
+    def _as_list(self, input: Union[list, Any]):
+        """Convert to list, if not already"""
+        if isinstance(input, list):
+            return input
+        return [input]

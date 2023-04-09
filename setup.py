@@ -18,6 +18,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "torch>=1.12",
+        "ABCParse>=0.0.3",
     ],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

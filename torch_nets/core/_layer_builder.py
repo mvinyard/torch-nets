@@ -13,7 +13,7 @@ import torch
 
 
 # -- import local dependencies: ------------------------------------------------
-from ._activation_function_config import ActivationFunctionConfig
+from .config._activation_function_config import ActivationFunctionConfig
 
 
 # -- set typing: ---------------------------------------------------------------

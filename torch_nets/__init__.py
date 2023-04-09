@@ -15,3 +15,4 @@ __version__ = "0.0.2"
 
 # -- import API core: --------------------------------------------------------------------
 from . import core
+from ._torch_net import TorchNet
