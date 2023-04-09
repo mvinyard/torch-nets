@@ -7,7 +7,7 @@ __version__ = "0.0.2"
 
 
 # -- import network modules: -------------------------------------------------------------
-from ._torch_net import TorchNet
+# from ._torch_net import TorchNet
 
 # from ._encoder_decoder import Encoder, Decoder
 # from ._augmented_torch_net import AugmentedTorchNet

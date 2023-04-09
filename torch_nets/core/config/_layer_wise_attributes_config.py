@@ -9,8 +9,18 @@ NoneType = type(None)
 
 
 # -- operational class: --------------------------------------------------------
-class TorchNetArgsConfig:
+class LayerWiseAttributesConfig:
     """
+    Enables acting class to accept activation and dropout parameters as either
+    a single value or a list of values. If a single value is provided, it will
+    be used for all hidden layers. If a list of values is provided, each value
+    in the list will be used for the corresponding hidden layer. The code checks
+    that the length of the provided lists matches the number of hidden layers,
+    raising a ValueError if they don't match.
+
+    This allows you to provide custom activation functions and dropout rates for
+    each hidden layer in the neural network.
+    
     Example:
     --------
     >>> format_layer_args = FormatLayerArgs(n_hidden=3)
@@ -51,5 +61,4 @@ class TorchNetArgsConfig:
         if self.n_args != self.n_hidden:
             return layer_args + [layer_args[-1]] * self.n_missing
 
-        else:
-            return layer_args
+        return layer_args

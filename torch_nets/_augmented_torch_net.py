@@ -11,10 +11,12 @@ __email__ = ", ".join(["vinyard@g.harvard.edu",])
 # -- import packages: ----------------------------------------------------------
 import torch
 from typing import Union
+from ABCParse import ABCParse
 
 
 # -- import local dependencies: ------------------------------------------------
-# TorchNet
+from ._torch_net import TorchNet
+
 
 # -- primary module: -----------------------------------------------------------
 class AugmentedTorchNet(torch.nn.Module, ABCParse):
