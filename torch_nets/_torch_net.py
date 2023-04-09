@@ -3,66 +3,79 @@ __module_name__ = "_torch_net.py"
 __doc__ = """Main user-facing API for torch.nn.Sequential."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
-__version__ = "0.0.2"
 
 
 # -- import packages: --------------------------------------------------------------------
 from collections import OrderedDict
 from itertools import groupby
-from typing import Union, Any
+from typing import Union, Any, List
 import torch
+
+from ABCParse import function_kwargs
 
 
 # -- import local dependencies: ----------------------------------------------------------
-from .core._layer import Layer
-from .core._support_functions import define_structure
-from .core._base_torch_net import BaseTorchNet
+# from .core._layer import Layer
+# from .core._support_functions import define_structure
+# from .core._base_torch_net import BaseTorchNet
+
+from . import core
 
 
 # -- Main module class: ------------------------------------------------------------------
-class TorchNet(BaseTorchNet):
-    def __build__(self):
+# class TorchNet(BaseTorchNet):
+#     def __build__(self):
         
-        if self.n_augment > 0:
-            self.in_features  += self.n_augment
-            self.out_features += self.n_augment
+#         if self.n_augment > 0:
+#             self.in_features  += self.n_augment
+#             self.out_features += self.n_augment
 
-        TorchNetStructure = define_structure(
-            self.in_features, self.out_features, self.hidden
-        )
+#         TorchNetStructure = define_structure(
+#             self.in_features, self.out_features, self.hidden
+#         )
 
-        TorchNetDict = OrderedDict()
-        for n, (name, layer_dims) in enumerate(TorchNetStructure.items()):
-            if name != "output":
-                TorchNetDict[name] = Layer(
-                    in_features=layer_dims[0],
-                    out_features=layer_dims[1],
-                    activation=self.activation[n],
-                    bias=self.bias[n],
-                    dropout=self.dropout[n],
-                )()
-            else:
-                TorchNetDict[name] = Layer(
-                    in_features=layer_dims[0],
-                    out_features=layer_dims[1],
-                    bias=self.output_bias,
-                )()
+#         TorchNetDict = OrderedDict()
+#         for n, (name, layer_dims) in enumerate(TorchNetStructure.items()):
+#             if name != "output":
+#                 TorchNetDict[name] = Layer(
+#                     in_features=layer_dims[0],
+#                     out_features=layer_dims[1],
+#                     activation=self.activation[n],
+#                     bias=self.bias[n],
+#                     dropout=self.dropout[n],
+#                 )()
+#             else:
+#                 TorchNetDict[name] = Layer(
+#                     in_features=layer_dims[0],
+#                     out_features=layer_dims[1],
+#                     bias=self.output_bias,
+#                 )()
 
-        return TorchNetDict
+#         return TorchNetDict
     
-
-
 # -- Main API-facing function: ----------------------------------------------
-def _torch_net(
+def TorchNet(
     in_features: int,
     out_features: int,
-    hidden: Union[list, int] = [],
-    activation="LeakyReLU",
-    dropout: Union[float, list] = 0.2,
-    n_augment: int = 0,
-    bias: bool = True,
+    hidden: List[int] = [],
+    activation: str = ["LeakyReLU"],
+    dropout: float = [0.2],
+    bias: bool = [True],
     output_bias: bool = True,
 ):
+    kwargs = function_kwargs(func=core.TorchNetBuilder, kwargs=locals())
+    return core.TorchNetBuilder(**kwargs)()
+
+# def _torch_net(
+#     in_features: int,
+#     out_features: int,
+#     hidden: Union[list, int] = [],
+#     activation="LeakyReLU",
+#     dropout: Union[float, list] = 0.2,
+#     n_augment: int = 0,
+#     bias: bool = True,
+#     output_bias: bool = True,
+# ):
     """
     Parameters:
     -----------
@@ -118,13 +131,13 @@ def _torch_net(
         params than necessary are passed, they will go unused.
     """
 
-    return TorchNet(
-        in_features=in_features,
-        out_features=out_features,
-        hidden=hidden,
-        activation=activation,
-        dropout=dropout,
-        n_augment=n_augment,
-        bias=bias,
-        output_bias=output_bias,
-    )()
+#     return TorchNet(
+#         in_features=in_features,
+#         out_features=out_features,
+#         hidden=hidden,
+#         activation=activation,
+#         dropout=dropout,
+#         n_augment=n_augment,
+#         bias=bias,
+#         output_bias=output_bias,
+#     )()
