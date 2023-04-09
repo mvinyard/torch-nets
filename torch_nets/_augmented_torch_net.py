@@ -6,22 +6,22 @@ __doc__ = """
           """
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu",])
-__version__ = "0.0.2"
 
 
-# -- import packages: --------------------------------------------------------------------
-from typing import Union
+# -- import packages: ----------------------------------------------------------
 import torch
+from typing import Union
 
 
-# -- import local dependencies: ----------------------------------------------------------
-from ._torch_net import _torch_net as TorchNet
+# -- import local dependencies: ------------------------------------------------
+# TorchNet
 
-
-# -- primary module: ---------------------------------------------------------------------
-class AugmentedTorchNet(torch.nn.Module):
+# -- primary module: -----------------------------------------------------------
+class AugmentedTorchNet(torch.nn.Module, ABCParse):
     """
-    TorchNet with an additional torch.nn.Linear layer to transform in_dim + n_aug -> out_dim
+    TorchNet with additional torch.nn.Linear layer.
+    Transforms (in_dim + n_aug) -> out_dim.
+
     Source:
     -------
      - paper:  https://arxiv.org/abs/1904.01681
@@ -35,59 +35,75 @@ class AugmentedTorchNet(torch.nn.Module):
         hidden: Union[list, int] = [],
         activation="LeakyReLU",
         dropout: Union[float, list] = 0.2,
-        n_augment: int = 0,
         bias: bool = True,
+        n_augment: int = 0,
         output_bias: bool = True,
     ):
         """
-        # TODO: docs.
-        
         Augmented TorchNet.
-        
+
         Parameters:
         -----------
+        in_features
         
+        out_features
+        
+        hidden
+        
+        activation
+        
+        dropout
+        
+        bias
+        
+        n_augment
+        
+        output_bias
+        
+
         Returns:
         --------
-        None
+        None, instantiates torch.nn.Module for augmented neural network.
+
+        Examples:
+        ---------
         
         """
         super(AugmentedTorchNet, self).__init__()
 
         self.__parse__(locals())
-        self.net
-
-    def __parse__(self, kwargs, ignore=["self"]):
-        for key, val in kwargs.items():
-            if not key in ignore:
-                setattr(self, key, val)
+        self._configure_neural_net()
 
     def _configure_neural_net(self):
         self.torch_net = TorchNet(
-            self.in_features,
-            self.out_features,
-            self.hidden,
-            self.activation,
-            self.dropout,
-            self.n_augment,
-            self.bias,
-            self.output_bias,
+            in_features=self.augmented_in,
+            out_features=self.augmented_out,
+            hidden=self.hidden,
+            activation=self.activation,
+            dropout=self.dropout,
+            bias=self.bias,
+            output_bias=self.output_bias,
         )
 
     @property
-    def net(self):
-        if not hasattr(self, "torch_net"):
-            self._configure_neural_net()
-        return self.torch_net
+    def augmented_in(self):
+        """updates self.in_features"""
+        return self.in_features + self.n_augment
+
+    @property
+    def augmented_out(self):
+        """updates self.out_features"""
+        return self.out_features + self.n_augment
 
     @property
     def augmented_output_layer(self):
-        aug_dim = int(self.out_features + self.n_augment)
-        return torch.nn.Linear(aug_dim, self.out_features)
+        return torch.nn.Linear(self.augmented_out, self.out_features)
 
     def augmented_input(self, input):
-        x_aug = torch.zeros(input.shape[0], self.n_augment)
+        x_aug = torch.zeros(
+            input.shape[0], self.n_augment, device=input.device
+        )
         return torch.cat([input, x_aug], 1)
 
     def forward(self, input):
-        return self.augmented_output_layer(self.net(self.augmented_input(input)))
+        return self.augmented_output_layer(self.torch_net(self.augmented_input(input)))
