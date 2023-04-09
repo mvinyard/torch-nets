@@ -49,18 +49,18 @@ def power_space(start: int, stop: int, n: int, power: Union[int, float]):
     return pspace
 
 
-def define_structure(in_features: int, out_features: int, hidden: Union[int, list]):
+# def define_structure(in_features: int, out_features: int, hidden: Union[int, list]):
     
-    """Build layered neural network structure"""
-    hidden = as_list(hidden)
-    n_hidden = len(hidden)
+#     """Build layered neural network structure"""
+#     hidden = as_list(hidden)
+#     n_hidden = len(hidden)
 
-    layer_names = ["hidden_{}".format(i + 1) for i in range(n_hidden)] + ["output"]
-    structure = [in_features] + hidden + [out_features]
+#     layer_names = ["hidden_{}".format(i + 1) for i in range(n_hidden)] + ["output"]
+#     structure = [in_features] + hidden + [out_features]
 
-    TorchNetDict = {}
+#     TorchNetDict = {}
 
-    for n, (i, j) in enumerate(zip(structure[:-1], structure[1:])):
-        TorchNetDict[layer_names[n]] = (i, j)
+#     for n, (i, j) in enumerate(zip(structure[:-1], structure[1:])):
+#         TorchNetDict[layer_names[n]] = (i, j)
 
-    return TorchNetDict
+#     return TorchNetDict

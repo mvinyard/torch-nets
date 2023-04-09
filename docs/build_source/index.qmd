@@ -1,5 +1,9 @@
 ---
 title: "torch-nets"
+description: "Detailed documentation of `Layer`.
+format:
+    html:
+    css: api_style_sheet.css
 ---
 
 ## Welcome!

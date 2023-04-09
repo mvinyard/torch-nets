@@ -6,9 +6,9 @@ __email__ = ", ".join(["vinyard@g.harvard.edu",])
 
 
 # -- import network modules: -------------------------------------------------------------
-from ._layer import Layer
+from ._layer_builder import LayerBuilder
 
 
-from ._layer_args_config import LayerArgsConfig
+from ._torch_net_args_config import TorchNetArgsConfig
 from ._activation_function_config import ActivationFunctionConfig
 from ._network_structure_config import NetworkStructureConfig

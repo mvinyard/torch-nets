@@ -6,6 +6,7 @@ __email__ = ", ".join(["vinyard@g.harvard.edu"])
 
 
 # -- import packages: ----------------------------------------------------------
+from typing import List, Union, Type, Callable
 from collections import OrderedDict
 from ABCParse import ABCParse
 import torch
@@ -16,20 +17,14 @@ from ._activation_function_config import ActivationFunctionConfig
 
 
 # -- set typing: ---------------------------------------------------------------
-from typing import List, Union, Type, Callable
-NoneType = type(None)
 ActivationFunctionType = Type[Callable[torch.nn.modules.activation, torch.Tensor]]
+NoneType = type(None)
 
 
 # -- Layer module: -------------------------------------------------------------
-class Layer(ABCParse):
+class LayerBuilder(ABCParse):
     def __init__(
         self,
-        in_features: int,
-        out_features: int,
-        activation: Union[NoneType, ActivationFunctionType] = None,
-        bias: bool = True,
-        dropout: Union[NoneType, float] = 0,
         name: str = "",
     )->NoneType:
         """
@@ -76,12 +71,11 @@ class Layer(ABCParse):
         (1) General flow assumed is: Linear -> Dropout -> Activation
         """
         
-        super(Layer, self).__init__()
+        super(LayerBuilder, self).__init__()
 
-        self.__parse__(kwargs=locals(), ignore=["name"], public=[None])
-        self._configure_activation = ActivationFunctionConfig()
-        setattr(self, "__name__", name)
         
+        setattr(self, "__name__", name)
+                
     # -- core properties: ----------------------------------------------------------------
     @property
     def linear(self)->torch.nn.modules.linear.Linear:
@@ -104,19 +98,25 @@ class Layer(ABCParse):
         if self._activation:
             return self._configure_activation(self._activation)
         
+    @property
+    def layer_attrs(self)->List[str]:
+        return ['linear', 'dropout', 'activation']
+        
     # -- called: -------------------------------------------------------------------------
     def __collect_attributes__(self)->NoneType:
         """Collect passed layer and optionally dropout, activation."""
-        attributes = [i for i in self.__dir__() if not i.startswith("_")]
-        for attr in attributes:
+        
+        for attr in self.layer_attrs:
             if not getattr(self, attr) is None:
                 if self.__name__:
                     attr_name = "_".join([self.__name__, attr])
                 else:
                     attr_name = attr
                 yield (attr_name, getattr(self, attr))
+    
 
-    def __call__(self)-> torch.nn.Sequential:
+    @property
+    def layer(self)-> torch.nn.Sequential:
         """
         Generate layer from arguments passed to __init__() and processed with supporting
         functions.
@@ -127,4 +127,58 @@ class Layer(ABCParse):
             Composed layer
             type: torch.nn.Sequential
         """
-        return torch.nn.Sequential(OrderedDict(self.__collect_attributes__()))
+        
+        if not hasattr(self, "_assembled"):
+            self._assembled = torch.nn.Sequential(OrderedDict(self.__collect_attributes__()))
+        return self._assembled
+    
+    def __call__(
+        self,
+        in_features: int,
+        out_features: int,
+        activation: Union[NoneType, ActivationFunctionType] = None,
+        bias: bool = True,
+        dropout: Union[NoneType, float] = 0,
+    )->torch.nn.Sequential:
+        
+        """
+        Return Layer.
+        
+        Parameters:
+        -----------
+        in_features
+            Size of layer input.
+            type: int
+        
+        out_features
+            Size of layer output.
+            type: int
+        
+        activation
+            If passed, defines appended activation function.
+            type: 'torch.nn.modules.activation.<func>'
+            default: None
+        
+        bias
+            Indicate if the layer should not learn an additive bias.
+            type: bool
+            default: True
+            
+        dropout
+            If > 0, append dropout layer with probablity p, where p = dropout.
+            type: float
+            default: 0
+            
+        Returns:
+        --------
+        layer
+            type: torch.nn.Sequential
+        """
+        
+        self.__parse__(kwargs=locals(), public=[None]) # ignore=["name"],
+        self._configure_activation = ActivationFunctionConfig()
+        
+        return self.layer
+    
+    def __repr__(self)->str:
+        return "LayerBuilder"
