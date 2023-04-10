@@ -27,7 +27,6 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         )
 
         self.layers = []
-        self.lb = LayerBuilder()
 
         xyz = self.__build__()
         self.names = []
@@ -81,6 +80,7 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         for n, (layer_name, (in_dim, out_dim)) in enumerate(
             self.config.network_structure.items()
         ):
+                  
             if layer_name == "output":
                 TorchNetDict[layer_name] = self._build_output_layer(in_dim, out_dim)
             else:

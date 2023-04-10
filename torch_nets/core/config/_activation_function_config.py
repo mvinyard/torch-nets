@@ -20,7 +20,7 @@ class ActivationFunctionConfig:
     def from_torch_module_callable(self, func):
         return func
 
-    def check_from_torch_module(self, func):
+    def check_torch_module(self, func):
         return isinstance(func(), torch.nn.Module)
 
     def from_torch_module(self, func):

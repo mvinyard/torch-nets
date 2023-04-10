@@ -71,9 +71,7 @@ class LayerBuilder(ABCParse):
         (1) General flow assumed is: Linear -> Dropout -> Activation
         """
         
-        super(LayerBuilder, self).__init__()
-
-        
+        super(LayerBuilder, self).__init__()        
         setattr(self, "__name__", name)
                 
     # -- core properties: ----------------------------------------------------------------

@@ -10,4 +10,4 @@ __email__ = ", ".join(["vinyard@g.harvard.edu",])
 from . import config
 
 from ._layer_builder import LayerBuilder
-# from ._torch_net_builder import TorchNetBuilder
+from ._power_space import power_space

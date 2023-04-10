@@ -1,9 +1,8 @@
 
-__module_name__ = "_support_functions.py"
-__doc__ = """Support module."""
+__module_name__ = "_power_space.py"
+__doc__ = """power space function for encoder / decoder formulation."""
 __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu",])
-__version__ = "0.0.2"
 
 
 # -- import packages: --------------------------------------------------------------------
@@ -47,20 +46,3 @@ def power_space(start: int, stop: int, n: int, power: Union[int, float]):
     pspace[0], pspace[-1] = start, stop
     
     return pspace
-
-
-# def define_structure(in_features: int, out_features: int, hidden: Union[int, list]):
-    
-#     """Build layered neural network structure"""
-#     hidden = as_list(hidden)
-#     n_hidden = len(hidden)
-
-#     layer_names = ["hidden_{}".format(i + 1) for i in range(n_hidden)] + ["output"]
-#     structure = [in_features] + hidden + [out_features]
-
-#     TorchNetDict = {}
-
-#     for n, (i, j) in enumerate(zip(structure[:-1], structure[1:])):
-#         TorchNetDict[layer_names[n]] = (i, j)
-
-#     return TorchNetDict
