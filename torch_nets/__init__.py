@@ -15,3 +15,4 @@ from ._augmented_torch_net import AugmentedTorchNet
 
 # -- import API core: --------------------------------------------------------------------
 from . import core
+from . import tools as tl
