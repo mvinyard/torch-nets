@@ -16,6 +16,7 @@ from .core import power_space
 
 # -- API-facing class: ---------------------------------------------------------
 class Decoder(TorchNet):
+    """Class derived from TorchNet for constructing a decoder network."""
     def __init__(
         self,
         data_dim: int,

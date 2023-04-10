@@ -34,9 +34,9 @@ class AugmentedTorchNet(torch.nn.Module, ABCParse.ABCParse):
         in_features: int,
         out_features: int,
         hidden: Union[list, int] = [],
-        activation="LeakyReLU",
-        dropout: Union[float, list] = 0.2,
-        bias: bool = True,
+        activation=["LeakyReLU"],
+        dropout: Union[float, list] = [0.2],
+        bias: bool = [True],
         n_augment: int = 0,
         output_bias: bool = True,
     ):
@@ -46,20 +46,34 @@ class AugmentedTorchNet(torch.nn.Module, ABCParse.ABCParse):
         Parameters:
         -----------
         in_features
+            type: int
         
         out_features
+            type: int
         
         hidden
+            Hidden layer structure (e.g., [400, 400])
+            type: List[int]
         
         activation
+            Specifices activation function
+            type: Any
         
         dropout
+            type: List[float]
+            default: [0.2]
         
         bias
-        
+            type: List[bool]
+            default: [True]
+            
         n_augment
+            Number of augmented dimensions.
+            type: int
         
         output_bias
+            type: bool
+            default: False
         
 
         Returns:

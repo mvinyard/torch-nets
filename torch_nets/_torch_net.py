@@ -8,6 +8,12 @@ from .core.config import Config
 from .core import LayerBuilder
 
 class TorchNet(torch.nn.Sequential, ABCParse):
+        
+    """        
+    Notes:
+    ------
+    (1) No need to define forward() method as it is already handled by nn.Sequential
+    """
     def __init__(
         self,
         in_features: int,
@@ -18,6 +24,16 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         bias: bool = True,
         output_bias: bool = True,
     ):
+        """
+        in_features
+        out_features
+        hidden
+        activation
+        dropout
+        bias
+        output_bias
+        """
+
         self.__parse__(locals())
 
         self.config = Config(
@@ -88,7 +104,7 @@ class TorchNet(torch.nn.Sequential, ABCParse):
 
         return TorchNetDict
 
-    # No need to define forward() method as it is already handled by nn.Sequential
+    
     def _as_list(self, input: Union[list, Any]):
         """Convert to list, if not already"""
         if isinstance(input, list):
