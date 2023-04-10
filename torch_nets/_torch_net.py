@@ -1,12 +1,17 @@
 
+# -- import packages: ---------------------------------------------------------------
 from ABCParse import ABCParse
-import torch
 from typing import Union, List, Any
 from collections import OrderedDict
+import torch
 
+
+# -- import local dependencies: -----------------------------------------------------
 from .core.config import Config
 from .core import LayerBuilder
 
+
+# -- API-facing class: --------------------------------------------------------------
 class TorchNet(torch.nn.Sequential, ABCParse):
         
     """        
@@ -103,7 +108,6 @@ class TorchNet(torch.nn.Sequential, ABCParse):
                 TorchNetDict[layer_name] = self._build_hidden_layer(in_dim, out_dim, n)
 
         return TorchNetDict
-
     
     def _as_list(self, input: Union[list, Any]):
         """Convert to list, if not already"""
