@@ -9,9 +9,9 @@
 
 Compose PyTorch neural networks with ease.
 
-#### Installation
+### Installation
 
-From PYPI (current version: [`v0.0.1`](https://pypi.org/project/torch-nets/0.0.1/))
+From PYPI (current version: [`v0.0.3rc0`](https://pypi.org/project/torch-nets))
 ```python
 pip install torch-nets
 ```
@@ -22,13 +22,15 @@ git clone https://github.com/mvinyard/torch-nets.git;
 cd torch-nets; pip install -e .
 ```
 
-### Example API use-case
+### Example API use-cases
 
 ```python
 from torch_nets import TorchNet
 ```
 
 #### Create a feed-forward neural network
+
+The only required arguments are `in_features` and `out_features`. The network can be made as simple or complex as you want through optional parameters.
 
 ```python
 net = TorchNet(
@@ -37,14 +39,16 @@ net = TorchNet(
     hidden=[400, 400],
     activation="LeakyReLU",
     dropout=0.2,
-    n_augment=0,
     bias=True,
     output_bias=True,
 )
-net
 ```
+<details>
+<summary>See output</summary>
+<br>
+    
 ```
-Sequential(
+TorchNet(
   (hidden_1): Sequential(
     (linear): Linear(in_features=50, out_features=400, bias=True)
     (dropout): Dropout(p=0.2, inplace=False)
@@ -61,9 +65,19 @@ Sequential(
 )
 ```
 
-The only required arguments are `in_features` and `out_features`. The network can be made as simple or complex as you want through optional parameters.
+</details>
 
 
-#### Potential future plans
+### Documentation
 
-- Composition of `torch.optim` funcs.
+For more information, including examples of additional use-cases please visit the [**documentation**]() (coming soon)! Additional use-cases include: `Encoder`, `Decoder`, `AugmentedTorchNet`.
+
+
+### Potential future plans
+
+- Flexible composition of `torch.optim` funcs.
+- Potential `pytorch_lightning` use-cases.
+
+---
+
+**Problem?** Open an [**issue**](https://github.com/mvinyard/torch-nets/issues/new) or get in touch via [**email**](mailto:vinyard@g.harvard.edu).
