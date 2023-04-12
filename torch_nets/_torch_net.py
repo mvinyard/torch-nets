@@ -70,6 +70,11 @@ class TorchNet(torch.nn.Sequential, ABCParse):
     @property
     def _building_list(self):
         return ["hidden", "activation", "bias", "dropout"]
+    
+    @property
+    def potential_net(self)->bool:
+        output_shape = [p.shape for p in list(self.parameters())][-1][0]
+        return (output_shape == 1)
 
     def stack(self):
         for key, val in self._PARAMS.items():
