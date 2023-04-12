@@ -47,15 +47,15 @@ class TorchNet(torch.nn.Sequential, ABCParse):
             hidden=hidden,
         )
 
-        names, layers = [], []
+        self.names, layers = [], []
         _net = self.__build__()
 
         for i, (_name, _layer) in enumerate(_net.items()):
             layers.append(_layer)
-            names.append(_name)
+            self.names.append(_name)
 
         super(TorchNet, self).__init__(*layers)
-        self._rename_nn_sequential_inplace(self, names)
+        self._rename_nn_sequential_inplace(self, self.names)
 
     def _rename_nn_sequential_inplace(
         self, sequential: torch.nn.Sequential, names: List[str]
