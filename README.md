@@ -1,4 +1,4 @@
-![logo](./docs/imgs/torch-nets.logo.png)
+# ![logo](./docs/imgs/torch-nets.logo.png)
 <!-- # Torch-Nets -->
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/torch-nets.svg)](https://pypi.python.org/pypi/torch-nets/)
