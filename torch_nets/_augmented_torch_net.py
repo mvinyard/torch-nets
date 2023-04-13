@@ -92,24 +92,26 @@ class AugmentedTorchNet(torch.nn.Module, ABCParse.ABCParse):
         
         super(AugmentedTorchNet, self).__init__()
 
+        self.__parse__(locals())
+        
         self._in_features_orig = in_features
         self._out_features_orig = out_features
+        
         in_features += n_augment
         out_features += n_augment
 
         self.net = TorchNet(
             **ABCParse.function_kwargs(TorchNet, kwargs=locals())
-        )
-
-        self.__parse__(locals(), ignore=["net"])
+        )        
 
         if n_augment > 0:
             self._configure_augmented_output()
 
     def _configure_augmented_output(self):
-        self.net.names.append("augmented_output")
-        self.net.extend([torch.nn.Linear(self.out_features, self._out_features_orig)])
-        self.net._rename_nn_sequential_inplace(self.net, self.net.names)
+        self.net.add_module(
+            "augmented_output",
+            torch.nn.Linear(self.net.out_features, self._out_features_orig),
+        )
 
     def augment_input(self, input):
         x_aug = torch.zeros(input.shape[0], self.n_augment, device=input.device)
@@ -117,9 +119,3 @@ class AugmentedTorchNet(torch.nn.Module, ABCParse.ABCParse):
 
     def forward(self, input):
         return self.net(self.augment_input(input))
-
-    def __repr__(self):
-        return (
-            f"{self.__class__.__name__}(in_features={self._in_features_orig}, "
-            f"out_features={self._out_features_orig}, net={repr(self.net)})"
-        )

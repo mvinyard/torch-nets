@@ -1,17 +1,18 @@
-# Torch-Nets
+# ![logo](./docs/imgs/torch-nets.logo.png)
+<!-- # Torch-Nets -->
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/torch-nets.svg)](https://pypi.python.org/pypi/torch-nets/)
 [![PyPI version](https://badge.fury.io/py/torch-nets.svg)](https://badge.fury.io/py/torch-nets)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-<a href="https://github.com/mvinyard/torch-nets/"><img src="/docs/imgs/ol-reliable-spongebob.gif" alt="ol-reliable-spongebob" width="400"/></a>
+<!-- <a href="https://github.com/mvinyard/torch-nets/"><img src="/docs/imgs/ol-reliable-spongebob.gif" alt="ol-reliable-spongebob" width="400"/></a> -->
 
 Compose PyTorch neural networks with ease.
 
 ### Installation
 
-From PYPI (current version: [`v0.0.3`](https://pypi.org/project/torch-nets))
+From PYPI (current version: [`v0.0.4`](https://pypi.org/project/torch-nets))
 ```python
 pip install torch-nets
 ```
