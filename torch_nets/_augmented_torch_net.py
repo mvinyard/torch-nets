@@ -90,7 +90,7 @@ class AugmentedTorchNet(torch.nn.Module, ABCParse.ABCParse):
         
         """
         
-        super(AugmentedTorchNet, self).__init__()
+        super().__init__()
 
         self.__parse__(locals())
         

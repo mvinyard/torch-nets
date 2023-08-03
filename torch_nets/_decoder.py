@@ -85,7 +85,7 @@ class Decoder(TorchNet):
             start=latent_dim, stop=data_dim, n=n_hidden + 2, power=power
         )[1:-1].tolist()
 
-        super(Decoder, self).__init__(
+        super().__init__(
             in_features=latent_dim,
             out_features=data_dim,
             hidden=hidden,
