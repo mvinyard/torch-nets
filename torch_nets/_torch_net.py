@@ -48,13 +48,13 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         )
 
         self.names, layers = [], []
-        _net = self.__build__()
+        _net = self._build_net()
 
         for i, (_name, _layer) in enumerate(_net.items()):
             layers.append(_layer)
             self.names.append(_name)
 
-        super(TorchNet, self).__init__(*layers)
+        super().__init__(*layers)
         self._rename_nn_sequential_inplace(self, self.names)
 
     def _rename_nn_sequential_inplace(
@@ -97,7 +97,7 @@ class TorchNet(torch.nn.Sequential, ABCParse):
             bias=self.output_bias,
         )
 
-    def __build__(self):
+    def _build_net(self):
         self.stack()
 
         TorchNetDict = {}

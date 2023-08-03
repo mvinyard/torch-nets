@@ -7,10 +7,10 @@ import sys
 
 setuptools.setup(
     name="torch-nets",
-    version="0.0.4",
-    python_requires=">3.7.0",
-    author="Michael E. Vinyard - Harvard University - Broad Institute of MIT and Harvard - Massachussetts General Hospital",
-    author_email="mvinyard@broadinstitute.org",
+    version="0.0.5",
+    python_requires=">3.9.0",
+    author="Michael E. Vinyard",
+    author_email="mvinyard.ai@gmail.com",
     url=None,
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -18,12 +18,12 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "torch>=2.0.0",
-        "ABCParse>=0.0.3",
+        "ABCParse>=0.0.6",
         "vinplots>=0.0.75",
     ],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.9",
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],

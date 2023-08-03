@@ -86,7 +86,7 @@ class Encoder(TorchNet):
             start=data_dim, stop=latent_dim, n=n_hidden + 2, power=power
         )[1:-1].tolist()
 
-        super(Encoder, self).__init__(
+        super().__init__(
             in_features=data_dim,
             out_features=latent_dim,
             hidden=hidden,
