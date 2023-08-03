@@ -7,7 +7,7 @@ import sys
 
 setuptools.setup(
     name="torch-nets",
-    version="0.0.5rc0",
+    version="0.0.5",
     python_requires=">3.9.0",
     author="Michael E. Vinyard",
     author_email="mvinyard.ai@gmail.com",
