@@ -8,7 +8,7 @@ __email__ = ", ".join(["vinyard@g.harvard.edu"])
 # -- import packages: ----------------------------------------------------------
 from typing import List, Union, Type, Callable
 from collections import OrderedDict
-from ABCParse import ABCParse
+import ABCParse
 import torch
 
 
@@ -17,16 +17,13 @@ from .config._activation_function_config import ActivationFunctionConfig
 
 
 # -- set typing: ---------------------------------------------------------------
-ActivationFunctionType = Type[Callable[torch.nn.modules.activation, torch.Tensor]]
-NoneType = type(None)
+ActivationFunction = Type[Callable[torch.nn.modules.activation, torch.Tensor]]
 
 
 # -- Layer module: -------------------------------------------------------------
-class LayerBuilder(ABCParse):
-    def __init__(
-        self,
-        name: str = "",
-    )->NoneType:
+class LayerBuilder(ABCParse.ABCParse):
+    def __init__(self, name: str = "") -> None:
+
         """
         Container for a single linear layer for a torch neural network,
         often an essential building block of torch.nn.Sequential or
@@ -91,17 +88,17 @@ class LayerBuilder(ABCParse):
             return torch.nn.Dropout(self._dropout)
         
     @property
-    def activation(self)->ActivationFunctionType:
+    def activation(self) -> ActivationFunction:
         """torch.nn.<activation> layer"""
         if self._activation:
             return self._configure_activation(self._activation)
         
     @property
-    def layer_attrs(self)->List[str]:
+    def layer_attrs(self) -> List[str]:
         return ['linear', 'dropout', 'activation']
         
     # -- called: -------------------------------------------------------------------------
-    def __collect_attributes__(self)->NoneType:
+    def __collect_attributes__(self) -> None:
         """Collect passed layer and optionally dropout, activation."""
         
         for attr in self.layer_attrs:
@@ -134,9 +131,9 @@ class LayerBuilder(ABCParse):
         self,
         in_features: int,
         out_features: int,
-        activation: Union[NoneType, ActivationFunctionType] = None,
+        activation: Union[None, ActivationFunction] = None,
         bias: bool = True,
-        dropout: Union[NoneType, float] = 0,
+        dropout: Union[None, float] = 0,
     )->torch.nn.Sequential:
         
         """

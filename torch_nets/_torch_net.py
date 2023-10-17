@@ -1,18 +1,21 @@
 
-# -- import packages: ---------------------------------------------------------------
-from ABCParse import ABCParse
-from typing import Union, List, Any
+# -- import packages: ---------------------------------------------------------
+import ABCParse
 from collections import OrderedDict
 import torch
 
 
-# -- import local dependencies: -----------------------------------------------------
+# -- import local dependencies: -----------------------------------------------
 from .core.config import Config
 from .core import LayerBuilder
 
 
-# -- API-facing class: --------------------------------------------------------------
-class TorchNet(torch.nn.Sequential, ABCParse):
+# -- set typing: --------------------------------------------------------------
+from typing import Union, List, Any, Dict
+
+
+# -- API-facing class: --------------------------------------------------------
+class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
         
     """        
     Notes:
@@ -42,46 +45,52 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         self.__parse__(locals())
 
         self.config = Config(
-            in_features=in_features,
-            out_features=out_features,
-            hidden=hidden,
+            in_features = self._in_features,
+            out_features = self._out_features,
+            hidden = self._hidden,
         )
 
-        self.names, layers = [], []
+        self._names, layers = [], []
         _net = self._build_net()
 
         for i, (_name, _layer) in enumerate(_net.items()):
             layers.append(_layer)
-            self.names.append(_name)
+            self._names.append(_name)
 
         super().__init__(*layers)
-        self._rename_nn_sequential_inplace(self, self.names)
+        self._rename_nn_sequential_inplace(self, self._names)
 
     def _rename_nn_sequential_inplace(
         self, sequential: torch.nn.Sequential, names: List[str]
     ) -> None:
+        
         new_modules = OrderedDict()
+        
         for i, (k, v) in enumerate(sequential._modules.items()):
             new_modules[names[i]] = v
 
         sequential._modules = new_modules
 
     @property
-    def _building_list(self):
+    def _building_list(self) -> List[str]:
+        
         return ["hidden", "activation", "bias", "dropout"]
     
     @property
     def potential_net(self)->bool:
+        
         output_shape = [p.shape for p in list(self.parameters())][-1][0]
         return (output_shape == 1)
 
     def stack(self):
+        
         for key, val in self._PARAMS.items():
             if key in self._building_list:
                 val = self.config.layerwise_attributes(self._PARAMS[key])
                 setattr(self, key, val)
 
     def _build_hidden_layer(self, in_dim, out_dim, n):
+        
         return LayerBuilder()(
             in_features=in_dim,
             out_features=out_dim,
@@ -91,13 +100,15 @@ class TorchNet(torch.nn.Sequential, ABCParse):
         )
 
     def _build_output_layer(self, in_dim, out_dim):
+        
         return LayerBuilder()(
             in_features=in_dim,
             out_features=out_dim,
-            bias=self.output_bias,
+            bias=self._output_bias,
         )
 
-    def _build_net(self):
+    def _build_net(self) -> Dict:
+        
         self.stack()
 
         TorchNetDict = {}
