@@ -3,7 +3,7 @@ __module_name__ = "__init__.py"
 __doc__ = """Main torch-nets API __init__.py module."""
 __author__ = "Michael E. Vinyard"
 __email__ = "mvinyard.ai@gmail.com"
-__version__ = "0.1.0rc1"
+__version__ = "0.1.0"
 
 
 # -- import network modules: -------------------------------------------------------------
