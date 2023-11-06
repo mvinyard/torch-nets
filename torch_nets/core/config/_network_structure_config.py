@@ -1,11 +1,12 @@
 
 # -- import packages: -------------------------------------------------
-from ABCParse import ABCParse
+import ABCParse
 from typing import Union, Any, Dict
 
 
-class NetworkStructureConfig(ABCParse):
+class NetworkStructureConfig(ABCParse.ABCParse):
     def __init__(self):
+        
         self._TorchNetDict = {}
 
     def _as_list(self, input: Union[list, Any]):
@@ -23,6 +24,7 @@ class NetworkStructureConfig(ABCParse):
         return [self._in_features] + self._hidden + [self._out_features]
 
     def __call__(self, in_features, out_features, hidden) -> Dict:
+        
         """Build layered neural network structure"""
         
         self.__parse__(kwargs=locals(), public=[None])
