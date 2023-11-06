@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="torch-nets",
-    version="0.1.0rc0",
+    version="0.1.0rc1",
     python_requires=">3.9.0",
     author="Michael E. Vinyard",
     author_email="mvinyard.ai@gmail.com",
