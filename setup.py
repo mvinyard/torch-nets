@@ -1,13 +1,20 @@
 
+# -- import packages: ----------------------------------------------------------
 import setuptools
 import re
 import os
 import sys
 
 
+# -- run setup: ----------------------------------------------------------------
+
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
+
 setuptools.setup(
     name="torch-nets",
-    version="0.0.6rc0",
+    version="0.1.0rc0",
     python_requires=">3.9.0",
     author="Michael E. Vinyard",
     author_email="mvinyard.ai@gmail.com",
@@ -16,11 +23,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     description="API to compose PyTorch neural networks on the fly.",
     packages=setuptools.find_packages(),
-    install_requires=[
-        "torch>=2.0.0",
-        "ABCParse>=0.0.6",
-        "vinplots>=0.0.75",
-    ],
+    install_requires=requirements,
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Programming Language :: Python :: 3.9",
