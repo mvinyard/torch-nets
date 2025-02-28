@@ -1,3 +1,0 @@
-
-from ._plot_weights_and_biases import plot_weights_and_biases as weights_and_biases
-from ._plot_weights_and_biases import WeightsBiasesPlot as _WeightsBiasesPlot

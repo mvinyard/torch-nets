@@ -1,9 +1,15 @@
-from typing import List
+# -- import packages: ---------------------------------------------------------
+import collections
 import numpy as np
+
+# -- import local modules: ----------------------------------------------------
 from .._torch_net import TorchNet
-from collections import OrderedDict
+
+# -- set type hints: ----------------------------------------------------------
+from typing import List
 
 
+# -- operational cls: ---------------------------------------------------------
 class InferredNetworkArchitecture:
     """
     Notes:
@@ -13,7 +19,7 @@ class InferredNetworkArchitecture:
         necessary. Currently an edge case if False.
     """
 
-    def __init__(self, state_dict):
+    def __init__(self, state_dict: collections.OrderedDict) -> None:
         self.state_dict = state_dict
 
     def _get_network_param_sizes(self) -> list:
@@ -87,10 +93,10 @@ class InferredNetworkArchitecture:
 
 
 def infer_network_architecture_from_state(
-    state_dict: OrderedDict,
+    state_dict: collections.OrderedDict,
     dropout: List[float] = [0],
     activation: List[str] = ["LeakyReLU"],
-):
+) -> TorchNet:
     """You still need to provide dropout and activation structures."""
     arch = InferredNetworkArchitecture(state_dict)
     return TorchNet(dropout=dropout, activation=activation, **arch())

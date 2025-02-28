@@ -1,20 +1,16 @@
-
-# -- import packages: ----------------------------------------------------------
+# -- import packages: ---------------------------------------------------------
 import setuptools
-import re
-import os
-import sys
 
-
-# -- run setup: ----------------------------------------------------------------
-
-with open('requirements.txt') as f:
+# -- run setup: ---------------------------------------------------------------
+with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
+with open("torch_nets/__version__.py") as v:
+    exec(v.read())
 
 setuptools.setup(
     name="torch-nets",
-    version="0.1.0",
+    version=__version__,
     python_requires=">3.9.0",
     author="Michael E. Vinyard",
     author_email="mvinyard.ai@gmail.com",
