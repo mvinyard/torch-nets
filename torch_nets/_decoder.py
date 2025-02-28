@@ -5,16 +5,16 @@ __author__ = ", ".join(["Michael E. Vinyard"])
 __email__ = ", ".join(["vinyard@g.harvard.edu"])
 
 
-# -- import packages: ----------------------------------------------------------
+# -- import packages: ---------------------------------------------------------
 from typing import List, Union
 
 
-# -- import local dependencies: ------------------------------------------------
+# -- import local dependencies: -----------------------------------------------
 from ._torch_net import TorchNet
 from .core import power_space
 
 
-# -- API-facing class: ---------------------------------------------------------
+# -- API-facing class: --------------------------------------------------------
 class Decoder(TorchNet):
     """Class derived from TorchNet for constructing a decoder network."""
     def __init__(
@@ -27,7 +27,7 @@ class Decoder(TorchNet):
         dropout: Union[float, List[float]] = 0.2,
         bias: bool = True,
         output_bias: bool = True,
-    ):
+    ) -> None:
         """
         Parameters:
         -----------

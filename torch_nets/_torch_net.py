@@ -1,7 +1,7 @@
 
 # -- import packages: ---------------------------------------------------------
 import ABCParse
-from collections import OrderedDict
+import collections
 import torch
 
 
@@ -64,7 +64,7 @@ class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
         self, sequential: torch.nn.Sequential, names: List[str]
     ) -> None:
         
-        new_modules = OrderedDict()
+        new_modules = collections.OrderedDict()
         
         for i, (k, v) in enumerate(sequential._modules.items()):
             new_modules[names[i]] = v
@@ -82,7 +82,7 @@ class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
         output_shape = [p.shape for p in list(self.parameters())][-1][0]
         return (output_shape == 1)
 
-    def stack(self):
+    def stack(self) -> None:
         
         for key, val in self._PARAMS.items():
             if key in self._building_list:

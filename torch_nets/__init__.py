@@ -16,4 +16,5 @@ from ._augmented_torch_net import AugmentedTorchNet
 # -- import API core: --------------------------------------------------------------------
 from . import core
 from . import tools as tl
-from . import plotting as pl
+
+__all__ = ["TorchNet", "Encoder", "Decoder", "AugmentedTorchNet", "core", "tl"]
