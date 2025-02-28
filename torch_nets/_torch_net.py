@@ -1,4 +1,3 @@
-
 # -- import packages: ---------------------------------------------------------
 import ABCParse
 import collections
@@ -15,7 +14,7 @@ from typing import Union, List, Any, Dict
 
 
 # -- API-facing class: --------------------------------------------------------
-class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
+class TorchNet(ABCParse.ABCParse, torch.nn.Sequential):
         
     """        
     Notes:
@@ -41,7 +40,11 @@ class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
         bias
         output_bias
         """
-
+        
+        # Initialize torch.nn.Sequential first with empty layers
+        torch.nn.Sequential.__init__(self)
+        
+        # Then parse the arguments
         self.__parse__(locals())
 
         self.config = Config(
@@ -56,8 +59,12 @@ class TorchNet(torch.nn.Sequential, ABCParse.ABCParse):
         for i, (_name, _layer) in enumerate(_net.items()):
             layers.append(_layer)
             self._names.append(_name)
-
-        super().__init__(*layers)
+        
+        # Add the layers to the Sequential
+        for layer in layers:
+            self.add_module(str(len(self)), layer)
+            
+        # Rename the modules
         self._rename_nn_sequential_inplace(self, self._names)
 
     def _rename_nn_sequential_inplace(
